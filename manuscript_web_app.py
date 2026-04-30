@@ -20,6 +20,7 @@ from functools import lru_cache
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import re
 from typing import Dict, List
 from urllib.parse import parse_qs, urlparse
 
@@ -192,6 +193,30 @@ def tokenize(text: str) -> List[str]:
     return [token for token in text.split() if token]
 
 
+MANUSCRIPT_ID_RE = re.compile(r"^(?P<prefix>P|L)?(?P<number>\d+)(?P<suffix>[A-Za-z0-9]*)$")
+
+
+def manuscript_sort_key(manuscript_id: str) -> tuple[int, int, str, str]:
+    match = MANUSCRIPT_ID_RE.match(manuscript_id.strip())
+    if not match:
+        return (4, 0, manuscript_id, "")
+
+    prefix = match.group("prefix") or ""
+    number_text = match.group("number")
+    suffix = match.group("suffix") or ""
+
+    if prefix == "P":
+        category = 0
+    elif prefix == "L":
+        category = 3
+    elif number_text.startswith("0"):
+        category = 1
+    else:
+        category = 2
+
+    return (category, int(number_text), suffix, manuscript_id)
+
+
 def lcs_ops(tokens_a: List[str], tokens_b: List[str]) -> List[dict]:
     m = len(tokens_a)
     n = len(tokens_b)
@@ -259,7 +284,7 @@ class LibraryIndex:
                 records_by_book[record.book][record.manuscript_id] = record
 
         self._records_by_book = {
-            book: sorted(book_records.values(), key=lambda rec: rec.manuscript_id)
+            book: sorted(book_records.values(), key=lambda rec: manuscript_sort_key(rec.manuscript_id))
             for book, book_records in records_by_book.items()
         }
 
@@ -291,7 +316,7 @@ class LibraryIndex:
             bundle_lines_by_key[(book, manuscript_id)] = lines
 
         self._records_by_book = {
-            book: sorted(book_records.values(), key=lambda rec: rec.manuscript_id)
+            book: sorted(book_records.values(), key=lambda rec: manuscript_sort_key(rec.manuscript_id))
             for book, book_records in records_by_book.items()
         }
         self._bundle_lines_by_key = bundle_lines_by_key
