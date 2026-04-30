@@ -1,0 +1,256 @@
+:root {
+  --bg: #f8f4ec;
+  --panel: #fffaf3;
+  --ink: #1d2b3a;
+  --muted: #5f6f7f;
+  --border: #d2c7b8;
+  --accent: #0b6b65;
+  --diff-row: #fff2d9;
+  --add: #d7f7d9;
+  --del: #ffd8d8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Georgia", "Times New Roman", serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.9), transparent 42%),
+    linear-gradient(180deg, #f9f5ed 0%, var(--bg) 100%);
+  min-height: 100vh;
+}
+
+.wrap {
+  width: min(1160px, 96vw);
+  margin: 2rem auto;
+  padding: 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(21, 25, 35, 0.08);
+}
+
+.hero {
+  margin-bottom: 1.1rem;
+}
+
+h1 {
+  margin: 0 0 0.25rem;
+  font-size: clamp(1.6rem, 2.8vw, 2.25rem);
+  letter-spacing: 0.01em;
+}
+
+.sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.control-stage {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.1rem 0;
+}
+
+.manuscript-stage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+.control-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.85rem;
+  background: #fff;
+}
+
+.control-card label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.control-card select {
+  width: 100%;
+  border: 1px solid #c8beaf;
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  font: inherit;
+  background: #fff;
+  color: var(--ink);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.75rem 0 1rem;
+}
+
+button {
+  border: 1px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+button.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stats-heading {
+  margin: 0.8rem 0 0.4rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #536577;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.55rem;
+  margin-bottom: 0.8rem;
+}
+
+.stat {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.5rem;
+}
+
+.stats-secondary .stat {
+  background: #fcfaf6;
+}
+
+.stats-secondary .value {
+  font-size: 0.92rem;
+}
+
+.stat .label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.12rem;
+}
+
+.stat .value {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 880px;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e9e2d7;
+  padding: 0.55rem;
+  vertical-align: top;
+  text-align: left;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #f9f5ed;
+  z-index: 1;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #35485e;
+}
+
+tr.diff {
+  background: var(--diff-row);
+}
+
+.tok-add {
+  background: var(--add);
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.tok-del {
+  background: var(--del);
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.unit-label {
+  font-weight: 700;
+  color: #2e4256;
+}
+
+.unit-index {
+  margin-top: 0.16rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.row-match {
+  min-width: 120px;
+}
+
+.row-match .percent {
+  display: block;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #234d49;
+}
+
+.row-match .note {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.legend {
+  margin: 0.55rem 0 0;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.msg {
+  margin-top: 0.7rem;
+  color: #7c2b2b;
+  font-size: 0.92rem;
+  min-height: 1.3rem;
+}
+
+.hidden {
+  display: none;
+}

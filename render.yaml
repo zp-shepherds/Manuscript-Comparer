@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: zach-manuscript-comparison
+    runtime: python
+    plan: free
+    buildCommand: ""
+    startCommand: python3 manuscript_web_app.py --xml-root epistulae_data/manuscripts.json.gz --no-browser

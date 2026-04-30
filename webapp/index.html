@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zach's Manuscript Comparison</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <h1>Zach's Manuscript Comparison</h1>
+      <p class="sub">Choose a Bible book first, then compare two available manuscript transcriptions from that book.</p>
+    </header>
+
+    <section class="control-stage">
+      <div class="control-card book-card">
+        <label for="bookSelect">Bible Book</label>
+        <select id="bookSelect">
+          <option value="">Choose a book...</option>
+        </select>
+      </div>
+
+      <div id="manuscriptStage" class="manuscript-stage hidden">
+        <div class="control-card">
+          <label for="manuscriptA">First Manuscript</label>
+          <select id="manuscriptA">
+            <option value="">Choose the first manuscript...</option>
+          </select>
+        </div>
+        <div class="control-card">
+          <label for="manuscriptB">Second Manuscript</label>
+          <select id="manuscriptB">
+            <option value="">Choose the second manuscript...</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions hidden" id="actions">
+      <button id="compareBtn" class="primary">Compare Manuscripts</button>
+      <button id="toggleBtn" disabled>Show Differences Only</button>
+    </div>
+
+    <section id="summaryPanel" class="hidden">
+      <p class="stats-heading">Word-Level Summary</p>
+      <section class="stats" aria-live="polite">
+        <div class="stat"><span class="label">Words in A</span><span id="totalWordsA" class="value">0</span></div>
+        <div class="stat"><span class="label">Words in B</span><span id="totalWordsB" class="value">0</span></div>
+        <div class="stat"><span class="label">Matching Words</span><span id="matchingWords" class="value">0</span></div>
+        <div class="stat"><span class="label">Different Words</span><span id="differentWords" class="value">0</span></div>
+        <div class="stat"><span class="label">Word Agreement</span><span id="wordAgreement" class="value">0%</span></div>
+      </section>
+
+      <p class="stats-heading">Verse-Level Summary</p>
+      <section class="stats stats-secondary">
+        <div class="stat"><span class="label">Total Verses</span><span id="totalVerses" class="value">0</span></div>
+        <div class="stat"><span class="label">Matching Verses</span><span id="matchingVerses" class="value">0</span></div>
+        <div class="stat"><span class="label">Different Verses</span><span id="differentVerses" class="value">0</span></div>
+        <div class="stat"><span class="label">Verse Agreement</span><span id="verseAgreement" class="value">0%</span></div>
+      </section>
+    </section>
+
+    <div class="table-wrap hidden" id="resultsPanel">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 140px;">Verse</th>
+            <th style="width: 140px;">Word Match</th>
+            <th>First Manuscript</th>
+            <th>Second Manuscript</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </div>
+
+    <p class="legend hidden" id="legend">
+      Legend:
+      <span class="tok-del">words highlighted in red appear only in the first manuscript</span>;
+      <span class="tok-add">words highlighted in green appear only in the second manuscript</span>.
+    </p>
+
+    <p id="message" class="msg"></p>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
