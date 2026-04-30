@@ -90,6 +90,7 @@ WEB_DIR = Path(__file__).resolve().parent / "webapp"
 DEFAULT_TXT_ROOT = Path(__file__).resolve().parent / "epistulae_data" / "txt"
 DEFAULT_XML_ROOT = Path(__file__).resolve().parent / "epistulae_data" / "xml"
 DEFAULT_BUNDLE_PATH = Path(__file__).resolve().parent / "epistulae_data" / "manuscripts.json.gz"
+ALT_BUNDLE_PATH = DEFAULT_TXT_ROOT / "manuscripts.json.gz"
 
 
 @dataclass(frozen=True)
@@ -512,7 +513,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--xml-root",
         default=str(
-            DEFAULT_BUNDLE_PATH
+            ALT_BUNDLE_PATH
+            if ALT_BUNDLE_PATH.exists()
+            else DEFAULT_BUNDLE_PATH
             if DEFAULT_BUNDLE_PATH.exists()
             else DEFAULT_TXT_ROOT
             if DEFAULT_TXT_ROOT.exists()
@@ -538,9 +541,14 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    library = LibraryIndex(Path(args.xml_root))
+    library_path = Path(args.xml_root)
+    library = LibraryIndex(library_path)
     if not library.books():
-        print("No manuscript .txt or .xml files were found. Put converted text files or epistulae XML files in the selected folder and try again.")
+        if not library_path.exists():
+            print(f"Manuscript library path was not found: {library_path.resolve()}")
+        else:
+            print(f"No manuscript data was found in: {library.library_root}")
+        print("Expected either a manuscript bundle (.json.gz), a folder of converted .txt files, or a folder of XML files.")
         return 1
 
     AppHandler.library = library
